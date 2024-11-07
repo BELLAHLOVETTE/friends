@@ -1,0 +1,26 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest  # Change this to Windows
+
+    steps:
+    - uses: actions/checkout@v2  # Step to check out the code
+
+    - name: Set up Python
+      uses: actions/setup-python@v2  # Set up Python on Windows
+      with:
+        python-version: '3.13.0'  # Specify the Python version (e.g., 3.8, 3.9)
+
+    - name: Install dependencies  # Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install Flask flake8 pytest
+
+    - name: Lint with Flake8
+      run: flake8 app.py
+
+    - name: Run unit tests
+      run: python test_app.py
